@@ -81,19 +81,19 @@
       "required": false
     },
     "USERBOT_LOAD": {
-      "description": "(optional) Fill if you want to load that module only",
+      "description": "(optional) Fill if you want to load that module only, else leave it blank",
       "required": false
     },
     "USERBOT_NOLOAD": {
-      "description": "(optional) Fill if you dont want to load that module",
+      "description": "(optional) Fill if you dont want to load that module, else leave it blank",
       "required": false
     },
     "ASSISTANT_LOAD": {
-      "description": "(optional) Fill if you want to load that module only",
+      "description": "(optional) Fill if you want to load that module only, else leave it blank",
       "required": false
     },
     "ASSISTANT_NOLOAD": {
-      "description": "(optional) Fill if you dont want to load that module",
+      "description": "(optional) Fill if you dont want to load that module, else leave it blank",
       "required": false
     },
     "USERBOT_SESSION": {
@@ -101,6 +101,9 @@
     },
     "ASSISTANT_SESSION": {
       "description": "[REQUIRED] For make a session: https://github.com/AyraHikari/pyrogram-session-maker"
+    },
+    "GOOGLE_API_TEXT": {
+      "description": "(optional) Open client_secrets.json from your google drive API, copy all then paste in here"
     }
   },
   "addons": [

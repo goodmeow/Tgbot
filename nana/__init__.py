@@ -85,6 +85,11 @@ if ENV:
 	NANA_WORKER = int(os.environ.get('NANA_WORKER', 8))
 	ASSISTANT_WORKER = int(os.environ.get('ASSISTANT_WORKER', 2))
 
+	# Write google api strings
+	Drivestr = os.environ.get("GOOGLE_API_TEXT", "")
+	if Drivestr:
+		open("client_secrets.json", "w").write(str(Drivestr))
+
 	try:
 		TEST_DEVELOP = bool(os.environ.get('TEST_DEVELOP', False))
 		if TEST_DEVELOP:
@@ -138,6 +143,11 @@ else:
 	Command = Config.Command
 	NANA_WORKER = Config.NANA_WORKER
 	ASSISTANT_WORKER = Config.ASSISTANT_WORKER
+
+	# Write google api strings
+	Drivestr = Config.GOOGLE_API_TEXT
+	if Drivestr:
+		open("client_secrets.json", "w").write(str(Drivestr))
 
 	try:
 		TEST_DEVELOP = Config.TEST_DEVELOP
