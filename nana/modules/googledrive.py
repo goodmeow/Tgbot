@@ -131,7 +131,7 @@ async def gdrive_stuff(client, message):
 		if message.reply_to_message:
 			await message.edit("__Downloading...__")
 			if message.reply_to_message.photo:
-				nama = "photo_{}_{}.png".format(message.reply_to_message.photo, message.reply_to_message.photo.date)
+				nama = "photo_{}_{}.png".format(message.reply_to_message.photo.file_id, message.reply_to_message.photo.date)
 				await client.download_media(message.reply_to_message.photo, file_name="nana/downloads/" + nama)
 			elif message.reply_to_message.animation:
 				nama = "giphy_{}-{}.gif".format(message.reply_to_message.animation.date, message.reply_to_message.animation.file_size)
