@@ -7,21 +7,15 @@ from pyrogram import Filters
 
 __MODULE__ = "Shortlink"
 __HELP__ = """
-Need help?
-Learn regex here: regexone.com
+Just make it short for link
 
-──「 **Regex** 」──
--> `s/(regex)`
-Yes, just reply a msg and do `s/test/text`.
+──「 **Bitly** 」──
+-> `bitly google.com`
+Do shortlink for google
 
-Example: "This is test"
-Reply: s/test/text
-Result: "This is text"
-
-Flags: i (ignore), g (global)
-Flag text: `test things test`
-Flag ex: s/test/text/g
-Flag result: `text things text`
+──「 **Bitly check link** 」──
+-> `bitstats bit.ly/sH0RtL1Nk`
+Check original link from bitly link
 """
 
 @app.on_message(Filters.user("self") & Filters.command(["bitly"], Command))
