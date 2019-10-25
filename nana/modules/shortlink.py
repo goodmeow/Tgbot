@@ -1,0 +1,63 @@
+import pyrogram
+import requests
+from datetime import datetime
+
+from nana import app, Command, BITLY_API
+from pyrogram import Filters
+
+__MODULE__ = "Shortlink"
+__HELP__ = """
+Need help?
+Learn regex here: regexone.com
+
+──「 **Regex** 」──
+-> `s/(regex)`
+Yes, just reply a msg and do `s/test/text`.
+
+Example: "This is test"
+Reply: s/test/text
+Result: "This is text"
+
+Flags: i (ignore), g (global)
+Flag text: `test things test`
+Flag ex: s/test/text/g
+Flag result: `text things text`
+"""
+
+@app.on_message(Filters.user("self") & Filters.command(["bitly"], Command))
+async def bitly_shortlink(client, message):
+	if len(message.text.split()) == 1:
+		await message.edit("Usage: `bitly google.com`")
+		return
+	if not BITLY_API:
+		await message.edit("You must fill **BITLY_API** in config before use this.\nRegister at [here](https://dev.bitly.com/my_apps.html)", parse_mode="markdown")
+		return
+	target_url = message.text.split(None, 1)[1]
+	url = "https://api-ssl.bitly.com/v4/bitlinks"
+	data = {"long_url": target_url}
+	headers = {'Authorization': 'Bearer {}'.format(BITLY_API), 'Content-type': 'application/json'}
+	get = requests.post(url, json=data, headers=headers)
+	get_json = get.json()
+	if get.status_code == 200:
+		await message.edit("**Shortlink created!**\n**Original link:** {}\n**Shorted link:** {}\n\n**To get stats:** `bitstats {}`".format(get_json['long_url'], get_json['link'], get_json['id']))
+	else:
+		await message.edit("**Error:**\n{}\n\n{}".format(get_json['message'], get_json['description']))
+
+@app.on_message(Filters.user("self") & Filters.command(["bitstats"], Command))
+async def bitly_shortlink(client, message):
+	if len(message.text.split()) == 1:
+		await message.edit("Usage: `bitstats bit.ly/sH0RtL1Nk`")
+		return
+	if not BITLY_API:
+		await message.edit("You must fill BITLY_API in config before use this.\nRegister at [here](https://dev.bitly.com/my_apps.html)", parse_mode="markdown")
+		return
+	target_url = message.text.split(None, 1)[1]
+	url = "https://api-ssl.bitly.com/v4/bitlinks/{}".format(target_url)
+	headers = {'Authorization': 'Bearer {}'.format(BITLY_API), 'Content-type': 'application/json'}
+	get = requests.get(url, headers=headers)
+	get_json = get.json()
+	if get.status_code == 200:
+		parse_time = datetime.strptime(get_json['created_at'], "%Y-%m-%dT%H:%M:%S+0000").strftime("%H:%M:%S %d-%m-%Y")
+		await message.edit("**Shortlink Info**\n**Original link:** {}\n**Shorted link:** {}\n\n**Created at** `{}`".format(get_json['long_url'], get_json['link'], parse_time))
+	else:
+		await message.edit("**Error:**\n{}\n\n{}".format(get_json['message'], get_json['description']))

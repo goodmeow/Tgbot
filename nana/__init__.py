@@ -90,6 +90,9 @@ if ENV:
 	if Drivestr:
 		open("client_secrets.json", "w").write(str(Drivestr))
 
+	# Bitly API
+	BITLY_API = os.environ.get("BITLY_API", "")
+
 	try:
 		TEST_DEVELOP = bool(os.environ.get('TEST_DEVELOP', False))
 		if TEST_DEVELOP:
@@ -148,6 +151,9 @@ else:
 	Drivestr = Config.GOOGLE_API_TEXT
 	if Drivestr:
 		open("client_secrets.json", "w").write(str(Drivestr))
+
+	# Bitly API
+	BITLY_API = Config.BITLY_API
 
 	try:
 		TEST_DEVELOP = Config.TEST_DEVELOP

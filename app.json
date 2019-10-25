@@ -104,6 +104,9 @@
     },
     "GOOGLE_API_TEXT": {
       "description": "(optional) Open client_secrets.json from your google drive API, copy all then paste in here"
+    },
+    "BITLY_API": {
+      "description": "(optional) Fill your Bitly API, register here: https://dev.bitly.com/my_apps.html"
     }
   },
   "addons": [
