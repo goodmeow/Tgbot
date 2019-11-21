@@ -15,13 +15,15 @@ class SelfNotes(BASE):
 	value = Column(UnicodeText, nullable=False)
 	msgtype = Column(Integer, default=Types.TEXT)
 	file = Column(UnicodeText)
+	file_ref = Column(UnicodeText)
 
-	def __init__(self, user_id, name, value, msgtype, file):
+	def __init__(self, user_id, name, value, msgtype, file, file_ref):
 		self.user_id = user_id
 		self.name = name
 		self.value = value
 		self.msgtype = msgtype
 		self.file = file
+		self.file_ref = file_ref
 
 	def __repr__(self):
 		return "<Note %s>" % self.name
@@ -45,19 +47,19 @@ SELF_NOTES = {}
 # ANIMATED_STICKER = 10
 # CONTACT = 11
 
-def save_selfnote(user_id, note_name, note_data, msgtype, file=None):
+def save_selfnote(user_id, note_name, note_data, msgtype, file=None, file_ref=None):
 	global SELF_NOTES
 	with INSERTION_LOCK:
 		prev = SESSION.query(SelfNotes).get((user_id, note_name))
 		if prev:
 			SESSION.delete(prev)
-		note = SelfNotes(user_id, note_name, note_data, msgtype=int(msgtype), file=file)
+		note = SelfNotes(user_id, note_name, note_data, msgtype=int(msgtype), file=file, file_ref=file_ref)
 		SESSION.add(note)
 		SESSION.commit()
 
 		if not SELF_NOTES.get(user_id):
 			SELF_NOTES[user_id] = {}
-		SELF_NOTES[user_id][note_name] = {'value': note_data, 'type': msgtype, 'file': file}
+		SELF_NOTES[user_id][note_name] = {'value': note_data, 'type': msgtype, 'file': file, 'file_ref': file_ref}
 
 def get_selfnote(user_id, note_name):
 	if not SELF_NOTES.get(user_id):
@@ -105,6 +107,6 @@ def __load_allnotes():
 	for x in getall:
 		if not SELF_NOTES.get(x.user_id):
 			SELF_NOTES[x.user_id] = {}
-		SELF_NOTES[x.user_id][x.name] = {'value': x.value, 'type': x.msgtype, 'file': x.file}
+		SELF_NOTES[x.user_id][x.name] = {'value': x.value, 'type': x.msgtype, 'file': x.file, 'file_ref': x.file_ref}
 
 __load_allnotes()

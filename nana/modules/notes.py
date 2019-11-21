@@ -67,7 +67,7 @@ async def save_note(client, message):
 	if not DB_AVAIABLE:
 		await message.edit("Your database is not avaiable!")
 		return
-	note_name, text, data_type, content = get_note_type(message)
+	note_name, text, data_type, content, file_ref = get_note_type(message)
 
 	if not note_name:
 		await message.edit("```" + message.text + '```\n\nError: You must give a name for this note!')
@@ -79,7 +79,7 @@ async def save_note(client, message):
 			await message.edit("```" + message.text + '```\n\nError: There is no text in here!')
 			return
 
-	db.save_selfnote(message.from_user.id, note_name, text, data_type, content)
+	db.save_selfnote(message.from_user.id, note_name, text, data_type, content, file_ref)
 	await message.edit('Saved note `{}`!'.format(note_name))
 
 
@@ -130,7 +130,7 @@ async def get_note(client, message):
 		else:
 			await message.edit(teks)
 	elif getnotes['type'] in (Types.STICKER, Types.VOICE, Types.VIDEO_NOTE, Types.CONTACT, Types.ANIMATED_STICKER):
-		await GET_FORMAT[getnotes['type']](message.chat.id, getnotes['file'], reply_to_message_id=replyid)
+		await GET_FORMAT[getnotes['type']](message.chat.id, getnotes['file'], file_ref=getnotes['file_ref'], reply_to_message_id=replyid)
 	else:
 		if getnotes.get('value'):
 			teks, button = parse_button(getnotes.get('value'))
@@ -160,7 +160,7 @@ async def get_note(client, message):
 				message.edit("An error has accured! Check your assistant for more information!")
 				return
 		else:
-			await GET_FORMAT[getnotes['type']](message.chat.id, getnotes['file'], caption=teks, reply_to_message_id=replyid)
+			await GET_FORMAT[getnotes['type']](message.chat.id, getnotes['file'], file_ref=getnotes['file_ref'], caption=teks, reply_to_message_id=replyid)
 
 @app.on_message(Filters.user(Owner) & Filters.command(["notes", "saved"], Command))
 async def local_notes(client, message):
