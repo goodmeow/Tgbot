@@ -43,6 +43,13 @@ class Config(object):
 	USERBOT_SESSION = ""
 	ASSISTANT_SESSION = ""
 
+	# Google drive API, open client_secrets.json file, copy all text, and paste into """{THIS IS API}"""
+	#   If you dont have, leave it blank!
+	GOOGLE_API_TEXT = """Replace this text with your API"""
+
+	# Bitly API, register at https://dev.bitly.com/my_apps.html
+	BITLY_API = ""
+
 	# Pass True if you want to use test mode
 	TEST_MODE = False
 	

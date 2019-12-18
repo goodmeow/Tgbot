@@ -74,7 +74,7 @@ def get_message_type(msg):
 
 def get_note_type(msg):
 	if len(msg.text.split()) <= 1:
-		return None, None, None, None
+		return None, None, None, None, None
 	data_type = None
 	content = None
 	if msg.text:
@@ -101,6 +101,7 @@ def get_note_type(msg):
 
 		elif msg.reply_to_message.sticker:
 			content = msg.reply_to_message.sticker.file_id
+			file_ref = msg.reply_to_message.sticker.file_ref
 			data_type = Types.STICKER
 
 		elif msg.reply_to_message.document:
@@ -109,29 +110,36 @@ def get_note_type(msg):
 			else:
 				data_type = Types.DOCUMENT
 			content = msg.reply_to_message.document.file_id
+			file_ref = msg.reply_to_message.document.file_ref
 
 		elif msg.reply_to_message.photo:
-			content = msg.reply_to_message.photo.file_id  # last elem = best quality
+			content = msg.reply_to_message.photo.file_id
+			file_ref = msg.reply_to_message.photo.file_ref
 			data_type = Types.PHOTO
 
 		elif msg.reply_to_message.audio:
 			content = msg.reply_to_message.audio.file_id
+			file_ref = msg.reply_to_message.audio.file_ref
 			data_type = Types.AUDIO
 
 		elif msg.reply_to_message.voice:
 			content = msg.reply_to_message.voice.file_id
+			file_ref = msg.reply_to_message.voice.file_ref
 			data_type = Types.VOICE
 
 		elif msg.reply_to_message.video:
 			content = msg.reply_to_message.video.file_id
+			file_ref = msg.reply_to_message.video.file_ref
 			data_type = Types.VIDEO
 
 		elif msg.reply_to_message.video_note:
 			content = msg.reply_to_message.video_note.file_id
+			file_ref = msg.reply_to_message.video_note.file_ref
 			data_type = Types.VIDEO_NOTE
 
 		elif msg.reply_to_message.animation:
 			content = msg.reply_to_message.animation.file_id
+			file_ref = msg.reply_to_message.animation.file_ref
 			# text = None
 			data_type = Types.ANIMATION
 
@@ -148,9 +156,9 @@ def get_note_type(msg):
 		#	data_type = Types.ANIMATED_STICKER
 
 	else:
-		return None, None, None, None
+		return None, None, None, None, None
 
-	return note_name, text, data_type, content
+	return note_name, text, data_type, content, file_ref
 
 
 def get_welcome_type(msg):

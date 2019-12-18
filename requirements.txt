@@ -14,3 +14,4 @@ youtube_dl
 urbandict
 googletrans
 currencyconverter
+gsearch

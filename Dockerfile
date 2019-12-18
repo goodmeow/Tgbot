@@ -37,7 +37,6 @@ RUN apk add --no-cache --update \
     py-lxml \
     py-pillow \
     py-pip \
-    py-psycopg2 \
     py-requests \
     py-sqlalchemy \
     py-tz \
@@ -54,6 +53,8 @@ RUN apk add --no-cache --update \
     sqlite-dev \
     sudo \
     zlib-dev
+
+RUN apk add --no-cache -X http://dl-cdn.alpinelinux.org/alpine/edge/main py-psycopg2
 
 RUN pip3 install --upgrade pip setuptools
 
