@@ -36,6 +36,7 @@ RUN apk add --no-cache --update \
     postgresql-dev \
     py-lxml \
     py-pillow \
+    py-psycopg2 \
     py-pip \
     py-requests \
     py-sqlalchemy \
@@ -60,7 +61,6 @@ RUN apk update && apk add --no-cache --virtual .build-deps\
     && apk del .build-deps\
     && rm -rf /var/cache/apk/*
     
-RUN apk add --no-cache -X http://dl-cdn.alpinelinux.org/alpine/edge/main py-psycopg2
 
 # Copy Python Requirements to /app
 
